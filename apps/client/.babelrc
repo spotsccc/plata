@@ -1,0 +1,20 @@
+{
+  "presets": [
+    ["@babel/preset-env", { "targets": { "node": "current" } }],
+    "@babel/preset-typescript",
+    "atomic-router/babel-preset"
+  ],
+  "plugins": [
+    [
+      "effector/babel-plugin",
+      {
+        "factories": [
+          "@/shared/lib/filter",
+          "@/shared/lib/sync-with-query-params",
+          "@/shared/lib/pagination"
+        ]
+      }
+    ],
+    "inline-react-svg"
+  ]
+}

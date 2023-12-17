@@ -1,0 +1,14 @@
+{
+  "name": "models",
+  "license": "MIT",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "private": true,
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}
