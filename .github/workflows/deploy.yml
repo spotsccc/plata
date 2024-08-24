@@ -32,7 +32,7 @@ jobs:
         with:
           push: true
           context: .
-          tags: "chernenkoivan/daily_reports:${{ steps.commit.outputs.short }}"
+          tags: "chernenkoivan/plata:${{ steps.commit.outputs.short }}"
 
       - name: run deploy playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -40,8 +40,7 @@ jobs:
           playbook: deploy.yml
           inventory: |
             [do_servers]
-            root@138.68.105.105
-            root@165.232.114.104
+            root@161.35.2.84
           directory: ./deploy
           key: ${{secrets.SSH_PRIVATE_KEY}}
           options: |

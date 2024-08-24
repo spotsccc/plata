@@ -3,15 +3,15 @@
     - name: Start docker container
       community.docker.docker_container:
         name: app
-        image: "chernenkoivan/daily_reports:{{ VERSION }}"
+        image: "chernenkoivan/plata:{{ VERSION }}"
         restart_policy: always
         state: started
         ports:
           - 80:80
         env: HOST="0.0.0.0"
           PORT="80"
-          DATABASE_PASSWORD="{{ DATABASE_PASSWORD }}"
-          DATABASE_USER="{{ DATABASE_USER }}"
-          DATABASE_HOST="{{ DATABASE_HOST }}"
-          DATABASE_PORT="{{ DATABASE_PORT }}"
-          DATABASE="{{ DATABASE }}"
+          DB_PASSWORD="{{ DB_PASSWORD }}"
+          DB_USERNAME="{{ DB_USERNAME }}"
+          DB_HOST="{{ DB_HOST }}"
+          DB_PORT="{{ DB_PORT }}"
+          DB_NAME="{{ DB_NAME }}"
