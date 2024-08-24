@@ -44,4 +44,4 @@ jobs:
           directory: ./deploy
           key: ${{secrets.SSH_PRIVATE_KEY}}
           options: |
-            --extra-vars "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} DATABASE_USER=${{ secrets.DATABASE_USER }} DATABASE_HOST=${{ secrets.DATABASE_HOST }} DATABASE_PORT=${{ secrets.DATABASE_PORT }} DATABASE=${{ secrets.DATABASE }} VERSION=${{ steps.commit.outputs.short }}"
+            --extra-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }} DB_USERNAME=${{ secrets.DB_USERNAME }} DB_HOST=${{ secrets.DB_HOST }} DB_PORT=${{ secrets.DB_PORT }} DB_NAME=${{ secrets.DB_NAME }} VERSION=${{ steps.commit.outputs.short }}"
