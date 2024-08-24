@@ -1,19 +1,43 @@
-/**
- * This is your entry point to setup the root configuration for tRPC on the server.
- * - `initTRPC` should only be used once per app.
- * - We export only the functionality that we use so we can enforce which base procedures should be used
- *
- * Learn how to create protected base procedures and other things below:
- * @link https://trpc.io/docs/v11/router
- * @link https://trpc.io/docs/v11/procedures
- */
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from "@trpc/server";
+import { ZodError } from "zod";
+import { createContext } from "./context";
+import { initConfig } from "./config";
+import { initializeDatabase } from "./db";
 
-const t = initTRPC.create();
+const t = initTRPC.context<typeof createContext>().create({
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        validationError:
+          error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+            ? error.cause.flatten()
+            : null,
+      },
+    };
+  },
+});
 
-/**
- * Unprotected procedure
- **/
 export const publicProcedure = t.procedure;
 
 export const router = t.router;
+
+//@ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
+export const authProcedure = publicProcedure.use((opts) => {
+  if (!opts.ctx.user) {
+    throw new TRPCError({
+      message: "Unauthorized",
+      code: "UNAUTHORIZED",
+    });
+  }
+
+  return opts.next({ ctx: opts.ctx });
+});
+
+const config = initConfig();
+initializeDatabase();

@@ -1,0 +1,48 @@
+name: deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy repository
+        uses: actions/checkout@v2
+
+      - name: Get commit hash
+        id: commit
+        uses: pr-mpt/actions-commit-hash@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          tags: "chernenkoivan/daily_reports:${{ steps.commit.outputs.short }}"
+
+      - name: run deploy playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy.yml
+          inventory: |
+            [do_servers]
+            root@138.68.105.105
+            root@165.232.114.104
+          directory: ./deploy
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          options: |
+            --extra-vars "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} DATABASE_USER=${{ secrets.DATABASE_USER }} DATABASE_HOST=${{ secrets.DATABASE_HOST }} DATABASE_PORT=${{ secrets.DATABASE_PORT }} DATABASE=${{ secrets.DATABASE }} VERSION=${{ steps.commit.outputs.short }}"

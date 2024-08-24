@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install pip
+      apt:
+        name: python3-pip
+        update_cache: yes
+        cache_valid_time: 604800
+
+    - name: Install docker module for pip
+      pip:
+        name: docker

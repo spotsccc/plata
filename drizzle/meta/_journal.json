@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1723995205966,
+      "tag": "0000_natural_sauron",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1724199290553,
+      "tag": "0001_last_absorbing_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1724260798843,
+      "tag": "0002_clean_sabretooth",
+      "breakpoints": true
+    }
+  ]
+}
