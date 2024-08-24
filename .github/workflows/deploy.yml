@@ -34,6 +34,16 @@ jobs:
           context: .
           tags: "chernenkoivan/plata:${{ steps.commit.outputs.short }}"
 
+      - name: Prepare servers
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: prepare-servers.yml
+          inventory: |
+            [do_servers]
+            root@161.35.2.84
+          directory: ./deploy
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+
       - name: run deploy playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
