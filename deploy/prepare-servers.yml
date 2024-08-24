@@ -1,15 +1,40 @@
 - hosts: all
   tasks:
-    - name: Update apt
+    - name: Install aptitude
       apt:
-        update_cache: yes
+        name: aptitude
+        state: latest
+        update_cache: true
 
-    - name: Install pip
+    - name: Install required system packages
       apt:
-        name: python3-pip
-        update_cache: yes
-        cache_valid_time: 604800
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
 
-    - name: Install docker module for pip
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
       pip:
         name: docker
