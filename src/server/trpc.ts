@@ -39,5 +39,5 @@ export const authProcedure = publicProcedure.use((opts) => {
   return opts.next({ ctx: opts.ctx });
 });
 
-const config = initConfig();
+initConfig();
 initializeDatabase();
