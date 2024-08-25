@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint --cache --ext \".js,.ts,.tsx\" src",
-    "start": "next start"
+    "start": "next start",
+    "generate-migrations": "drizzle-kit generate",
+    "run-migrations": "tsx src/server/db/migrate.ts"
   },
   "dependencies": {
     "@effector/next": "^0.7.0",
