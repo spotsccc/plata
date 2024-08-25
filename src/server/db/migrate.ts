@@ -11,6 +11,7 @@ const connection = new Client({
   port: Number(process.env.DB_PORT),
   database: process.env.DB_NAME,
   connectionTimeoutMillis: 2000,
+  ssl: true,
 });
 
 connection
