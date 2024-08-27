@@ -5,10 +5,6 @@ import { z } from "zod";
 import { Currency } from "~/modules/finance/lib/model";
 import { db } from "./db";
 import { accounts } from "~/modules/finance/database/schemas";
-import { accessTokens, users } from "./db/schemas";
-import { eq } from "drizzle-orm";
-import dayjs from "dayjs";
-import { hash } from "crypto";
 import { insertUser } from "./modules/user/queries";
 import { authRouter } from "~/modules/auth/server/controllers";
 
