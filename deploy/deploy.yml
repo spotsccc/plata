@@ -3,7 +3,7 @@
     - name: Stop old container
       community.docker.docker_container:
         name: app
-        state: stoppped
+        state: stopped
 
     - name: Clear old images
       community.docker.docker_prune:
