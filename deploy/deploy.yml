@@ -1,11 +1,18 @@
 - hosts: all
   tasks:
-    - name: Stop old container
-      community.docker.docker_container:
+    - name: Check if Docker container exists
+      docker_container_info:
+        name: app
+      register: container_info
+      ignore_errors: yes
+
+    - name: Stop the Docker container if it exists
+      docker_container:
         name: app
         state: stopped
+      when: container_info.containers | length > 0
 
-    - name: Clear old images
+    - name: Clear old images and containers
       community.docker.docker_prune:
         containers: true
         images: true
