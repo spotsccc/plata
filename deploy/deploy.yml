@@ -1,5 +1,10 @@
 - hosts: all
   tasks:
+    - name: Stop old container
+      community.docker.docker_container:
+        name: app
+        state: stoppped
+
     - name: Clear old images
       community.docker.docker_prune:
         containers: true
