@@ -10,6 +10,7 @@ import { eq } from "drizzle-orm";
 import dayjs from "dayjs";
 import { hash } from "crypto";
 import { insertUser } from "./modules/user/queries";
+import { authRouter } from "~/modules/auth/server/controllers";
 
 export const appRouter = router({
   transactions: {
@@ -58,36 +59,7 @@ export const appRouter = router({
       }),
   },
   auth: {
-    login: publicProcedure
-      .input(
-        z.object({
-          email: z.string().email(),
-          password: z.string().min(8),
-        }),
-      )
-      .mutation(async ({ input, ctx }) => {
-        const user = await db.query.users.findFirst({
-          where: eq(users.email, input.email),
-        });
-
-        if (user?.password !== hash("sha512", input.password)) {
-          return { tag: "error", message: "Email or password is incorrect" };
-        }
-
-        const token = (
-          await db
-            .insert(accessTokens)
-            .values({
-              userId: user!.id,
-              expiresAt: dayjs().add(1, "d").toDate(),
-            })
-            .returning()
-        )[0];
-
-        ctx.setCookie("accessToken", token.token);
-
-        return { tag: "success", data: { user } };
-      }),
+    login: authRouter.login,
     register: publicProcedure
       .input(
         z

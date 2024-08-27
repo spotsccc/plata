@@ -1,1 +1,0 @@
-export { AccountsListPage } from "./view";
