@@ -35,7 +35,9 @@ export function LoginPage() {
 
   return (
     <Stack w="100%" p="xl" gap="lg">
-      <Title>Log in to manage your finance</Title>
+      <Title style={{ textAlign: "center" }}>
+        Log in to manage your finance
+      </Title>
       <Stack gap="md">
         <TextInput
           size="md"

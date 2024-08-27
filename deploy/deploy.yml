@@ -1,5 +1,10 @@
 - hosts: all
   tasks:
+    - name: Clear old images
+      community.docker.docker_prune:
+        containers: true
+        images: true
+
     - name: Start docker container
       community.docker.docker_container:
         name: app
