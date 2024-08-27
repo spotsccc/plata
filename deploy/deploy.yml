@@ -3,7 +3,7 @@
     - name: Stop the Docker container if it exists
       docker_container:
         name: app
-        state: stopped
+        state: absent
 
     - name: Clear old images and containers
       community.docker.docker_prune:
