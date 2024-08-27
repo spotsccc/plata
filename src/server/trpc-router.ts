@@ -58,59 +58,7 @@ export const appRouter = router({
         return account;
       }),
   },
-  auth: {
-    login: authRouter.login,
-    register: publicProcedure
-      .input(
-        z
-          .object({
-            email: z.string().email(),
-            password: z.string().min(8),
-            username: z.string().min(1),
-            repeatedPassword: z.string().min(8),
-          })
-          .refine(
-            ({ password, repeatedPassword }) => {
-              return password === repeatedPassword;
-            },
-            {
-              message: "Password and repeated password is not the same",
-              path: ["password"],
-            },
-          ),
-      )
-      .mutation(async ({ input, ctx }) => {
-        const passwordHash = hash("sha512", input.password);
-        try {
-          const user = (
-            await db
-              .insert(users)
-              .values({
-                password: passwordHash,
-                email: input.email,
-                username: input.username,
-              })
-              .returning()
-          )[0];
-
-          const token = (
-            await db
-              .insert(accessTokens)
-              .values({
-                userId: user.id,
-                expiresAt: dayjs().add(1, "d").toDate(),
-              })
-              .returning()
-          )[0];
-
-          ctx.setCookie("accessToken", token.token);
-
-          return { tag: "success" as const, data: { user } };
-        } catch (e) {
-          return { tag: "error" as const, error: e };
-        }
-      }),
-  },
+  auth: authRouter,
   users: {
     create: publicProcedure.mutation(async () => {
       return await insertUser();
