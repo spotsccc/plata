@@ -10,7 +10,7 @@ export const login = publicProcedure
   .mutation(async ({ input, ctx }) => {
     const user = await getUserByEmail(input.email);
 
-    if (user?.password !== hash("sha512", input.password)) {
+    if (user?.password !== hash("sha256", input.password)) {
       return createError({ type: "Wrong email or password" });
     }
 
