@@ -1,0 +1,1 @@
+export { AccountCreatePage } from "./view";

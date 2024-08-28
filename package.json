@@ -18,6 +18,7 @@
     "@trpc/client": "npm:@trpc/client@next",
     "@trpc/next": "npm:@trpc/next@next",
     "@trpc/server": "npm:@trpc/server@next",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
     "drizzle-orm": "^0.33.0",
     "effector": "^23.2.2",
