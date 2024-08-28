@@ -20,7 +20,7 @@ export function AccountCreatePage() {
       submitHandler: submitted,
     });
   return (
-    <Stack p="lg">
+    <Stack p="xl" gap="lg">
       <Title style={{ textAlign: "center" }}>Create account</Title>
       <Stack gap="md">
         <Stack gap="xs">
