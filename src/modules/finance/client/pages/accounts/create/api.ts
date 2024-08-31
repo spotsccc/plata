@@ -1,9 +1,9 @@
 import { createQuery } from "@farfetched/core";
 import { trpc } from "~/client/api";
-import { AccountCreateInput } from "~/modules/finance/lib/inputs";
+import type { AccountCreateInput } from "~/modules/finance/controllers/accounts/create";
 
 export const createAccountMutation = createQuery({
   async handler(input: AccountCreateInput) {
-    return trpc.accounts.create.mutate(input);
+    return trpc.finance.accounts.create.mutate(input);
   },
 });

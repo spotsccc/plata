@@ -7,7 +7,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { accounts } from "./accounts";
-import { InferModel, relations } from "drizzle-orm";
+import { InferModel } from "drizzle-orm";
 
 export const transactions = pgTable("transactions", {
   id: bigint("id", { mode: "number" }).primaryKey().generatedAlwaysAsIdentity(),
@@ -31,15 +31,4 @@ export const transactions = pgTable("transactions", {
   receiveCurrency: varchar("receive_currency", { length: 32 }),
 });
 
-export const transactionsRelations = relations(transactions, ({ one }) => ({
-  account: one(accounts, {
-    fields: [transactions.accountId],
-    references: [accounts.id],
-  }),
-  receiver: one(accounts, {
-    fields: [transactions.receiverId],
-    references: [accounts.id],
-  }),
-}));
-
-export type TransactionModel = InferModel<typeof transactions>;
+export type TransactionSchema = InferModel<typeof transactions>;

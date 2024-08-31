@@ -4,7 +4,7 @@ import { createContext } from "./context";
 import { initConfig } from "./config";
 import { initializeDatabase } from "./db";
 
-const t = initTRPC.context<typeof createContext>().create({
+export const t = initTRPC.context<typeof createContext>().create({
   errorFormatter({ shape, error }) {
     return {
       ...shape,

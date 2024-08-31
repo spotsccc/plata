@@ -1,12 +1,12 @@
 import { Currency } from "~/shared/currencies";
-import { TransactionSchema } from "./schemas";
 import {
   Transaction,
+  TransactionBase,
   TransactionExpense,
   TransactionTransfer,
-  TransactionBase,
   TransactionType,
-} from "../lib/model";
+} from "../models/transaction";
+import { TransactionSchema } from "../schemas/transactions";
 
 export function toDatabase(
   transaction: Transaction,

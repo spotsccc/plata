@@ -1,25 +1,23 @@
 import { allSettled, fork, serialize } from "effector";
 import { GetServerSidePropsContext } from "next";
-import { AccountsPage } from "~/modules/finance/client/pages/accounts/list";
-import { pageStarted } from "~/modules/finance/client/pages/accounts/list/model";
+import { TransactionCreatePage } from "~/modules/finance/client/pages/transactions/create";
+import { pageStarted } from "~/modules/finance/client/pages/transactions/create/model";
 import { createContextFromNext } from "~/server/context";
 import { createCaller } from "~/server/trpc-router";
 
-export default AccountsPage;
+export default TransactionCreatePage;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const context = await createContextFromNext(ctx);
-  const caller = createCaller(context);
-
   try {
-    const res = await caller.finance.accounts.listPage();
+    const accountId = Number(ctx.params!.id);
+    const context = await createContextFromNext(ctx);
+    const caller = createCaller(context);
+
+    const res = await caller.finance.transactions.createPage({ accountId });
 
     const scope = fork();
 
-    await allSettled(pageStarted, {
-      scope,
-      params: { user: res.success.user!, accounts: res.success.accounts },
-    });
+    await allSettled(pageStarted, { params: res, scope });
 
     return {
       props: {
@@ -27,7 +25,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     };
   } catch (e) {
-    console.log(e);
     return {
       redirect: {
         destination: "/auth/login",

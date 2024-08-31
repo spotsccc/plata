@@ -1,16 +1,12 @@
-import { createTransactionProcuderu } from "~/modules/finance/controllers/transactions/create/trpc";
-import { router } from "./trpc";
+import { router, t } from "./trpc";
 import { authRouter } from "~/modules/auth/server/controllers";
-import { create } from "~/modules/finance/controllers/accounts/create";
+import { finance } from "~/modules/finance/trpc";
 
 export const appRouter = router({
-  transactions: {
-    create: createTransactionProcuderu,
-  },
-  accounts: {
-    create,
-  },
+  finance,
   auth: authRouter,
 });
 
 export type AppRouter = typeof appRouter;
+
+export const createCaller = t.createCallerFactory(appRouter);

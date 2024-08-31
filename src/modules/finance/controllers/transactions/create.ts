@@ -1,25 +1,55 @@
-import { Context } from "~/server/context";
-import { TransactionCreateInput } from "./schema";
-import { getAccountById } from "~/modules/finance/database/get-account-by-id";
+import { z } from "zod";
 import { createError, createSuccess, isError } from "~/shared/result";
-import { applyTransaction } from "~/modules/finance/lib/apply-transaction";
-import { saveAccount } from "~/modules/finance/database/save-account";
-import { saveTransaction } from "~/modules/finance/database/save-transaction";
+import { applyTransaction } from "../../models/apply-transaction";
 import {
-  Transaction,
-  TransactionBase,
   TransactionType,
-} from "~/modules/finance/lib/model";
-import { initConfig } from "~/server/config";
-import { initializeDatabase } from "~/server/db";
+  Transaction,
+  TransactionBase as TransactionBaseModel,
+} from "../../models/transaction";
+import { getAccountById } from "../../repository/get-account-by-id";
+import { saveAccount } from "../../repository/save-account";
+import { saveTransaction } from "../../repository/save-transaction";
+import { Context } from "~/server/context";
+import { Currency } from "../../models/money";
+
+const TransactionBase = z.object({
+  amount: z.string(),
+  currency: z.nativeEnum(Currency),
+  accuracy: z.number(),
+  accountId: z.number(),
+  description: z.string().optional(),
+  createdAt: z.string().datetime(),
+});
+
+const TransactionIncome = TransactionBase.extend({
+  type: z.literal(TransactionType.income),
+});
+
+const TransactionExpense = TransactionBase.extend({
+  type: z.literal(TransactionType.expense),
+  category: z.string(),
+});
+
+const TransactionTransfer = TransactionBase.extend({
+  receiveAmount: z.string(),
+  receiveCurrency: z.nativeEnum(Currency),
+  receiveAccuracy: z.number(),
+  receiverId: z.number(),
+  type: z.literal(TransactionType.transfer),
+});
+
+export const transactionCreateInput = z.discriminatedUnion("type", [
+  TransactionIncome,
+  TransactionExpense,
+  TransactionTransfer,
+]);
+
+export type TransactionCreateInput = z.infer<typeof transactionCreateInput>;
 
 type Request = {
   input: TransactionCreateInput;
   ctx: Context;
 };
-
-initConfig();
-initializeDatabase();
 
 export async function transactionCreateController({ input, ctx }: Request) {
   let transaction = transactionFromInput(input);
@@ -55,39 +85,16 @@ export async function transactionCreateController({ input, ctx }: Request) {
   if (isError(applyTransactionResult)) {
     return applyTransactionResult;
   }
-
+  console.log(1);
   await saveAccount(applyTransactionResult.success);
+  console.log(2);
   transaction = await saveTransaction(transaction);
-
+  console.log(3);
   return createSuccess(transaction);
 }
 
-export type Request1 = {
-  ctx: Context;
-  input: {
-    accountId: number;
-  };
-};
-
-export async function transactionCreateQuery({ ctx, input }: Request1) {
-  const account = await getAccountById(input.accountId);
-
-  if (!account) {
-    return createError({ type: "Account does not exist" });
-  }
-
-  if (account.userId !== ctx.user?.id) {
-    return createError({ type: "Access denied" });
-  }
-
-  return createSuccess({
-    account,
-    user: ctx.user!,
-  });
-}
-
 function transactionFromInput(input: TransactionCreateInput): Transaction {
-  const base: TransactionBase = {
+  const base: TransactionBaseModel = {
     money: {
       accuracy: input.accuracy,
       currency: input.currency,

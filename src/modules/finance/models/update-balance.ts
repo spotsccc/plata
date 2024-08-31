@@ -1,4 +1,5 @@
-import { Account, Money } from "./model";
+import { Account } from "./account";
+import { Money } from "./money";
 
 export function updateBalance(
   account: Account,

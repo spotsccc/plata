@@ -1,5 +1,5 @@
 import { db } from "~/server/db";
-import { Account } from "../lib/model";
+import { Account } from "../models/account";
 
 export async function getAccounts(userId: number): Promise<Array<Account>> {
   const accounts = await db.query.accounts.findMany({

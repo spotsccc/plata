@@ -1,6 +1,5 @@
 import { Button, Select, Stack, TextInput, Title } from "@mantine/core";
 import { useUnit } from "effector-react";
-import { Currency } from "~/modules/finance/lib/model";
 import { Link } from "~/shared/ui/link";
 import {
   $currency,
@@ -9,6 +8,7 @@ import {
   nameChanged,
   submitted,
 } from "./model";
+import { Currency } from "~/modules/finance/models/money";
 
 export function AccountCreatePage() {
   const { name, nameHandler, currency, currencyHandler, submitHandler } =

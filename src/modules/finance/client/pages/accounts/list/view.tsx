@@ -1,6 +1,7 @@
 import {
   Button,
   Group,
+  NumberFormatter,
   Paper,
   Stack,
   Text,
@@ -9,8 +10,8 @@ import {
 } from "@mantine/core";
 import { Link } from "~/shared/ui/link";
 import Image from "next/image";
-import { useUnit } from "effector-react";
-import { $accounts } from "./model";
+import { useStoreMap, useUnit } from "effector-react";
+import { $accounts, createIncomeTransactionClicked } from "./model";
 
 export function AccountsPage() {
   const { accounts } = useUnit({ accounts: $accounts });
@@ -22,21 +23,39 @@ export function AccountsPage() {
       </Button>
       <Stack gap="sm">
         {accounts.map((account) => (
-          <AccountCard key={account.id!} />
+          <AccountCard key={account.id!} id={account.id!} />
         ))}
       </Stack>
     </Stack>
   );
 }
 
-export function AccountCard() {
+export function AccountCard({ id }: { id: number }) {
+  const account = useStoreMap({
+    store: $accounts,
+    keys: [id],
+    fn: (accounts, [id]) => accounts.find((account) => account.id === id),
+  });
+
+  const { incomeHandler } = useUnit({
+    incomeHandler: createIncomeTransactionClicked,
+  });
+
+  if (!account) {
+    throw new Error("Account does not exist");
+  }
+
   return (
     <Paper radius="md" withBorder w="100%">
       <Group justify="space-between" p="md">
         <Stack>
           <Stack gap="sm">
-            <Text>By bit</Text>
-            <Text>2 000 USD</Text>
+            <Text>{account?.name}</Text>
+            <NumberFormatter
+              prefix={`${account?.defaultCurrency} `}
+              value={account.balance[account.defaultCurrency].amount}
+              thousandSeparator
+            />
           </Stack>
           <Group>
             <UnstyledButton
@@ -49,6 +68,7 @@ export function AccountCard() {
                 alignItems: "center",
                 display: "flex",
               }}
+              onClick={() => incomeHandler({ accountId: account.id! })}
             >
               <Image
                 src="/icons/arrow-top.svg"

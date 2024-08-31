@@ -1,16 +1,16 @@
 import { createSuccess, createError, Result } from "~/shared/result";
 import { updateBalance } from "./update-balance";
-import {
-  Account,
-  createEmptyMoney,
-  Transaction,
-  TransactionExpense,
-  TransactionIncome,
-  TransactionTransfer,
-  TransactionType,
-} from "./model";
 import { minus } from "./minus";
 import { plus } from "./plus";
+import { Account } from "./account";
+import { createEmptyMoney } from "./money";
+import {
+  Transaction,
+  TransactionType,
+  TransactionIncome,
+  TransactionExpense,
+  TransactionTransfer,
+} from "./transaction";
 
 export type ApplyTransactionErrors = "Account has not enought funds";
 

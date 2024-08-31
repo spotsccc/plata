@@ -1,7 +1,7 @@
 import { createEvent, restore, sample } from "effector";
 import { createAccountMutation } from "./api";
-import type { AccountCreateInput } from "~/modules/finance/lib/inputs";
-import type { Currency } from "~/modules/finance/lib/model";
+import type { Currency } from "~/modules/finance/models/money";
+import type { AccountCreateInput } from "~/modules/finance/controllers/accounts/create";
 
 export const submitted = createEvent();
 export const nameChanged = createEvent<string>();

@@ -1,10 +1,16 @@
 import { combine, createEvent, createStore, restore, sample } from "effector";
-import { Account, Currency } from "~/modules/finance/lib/model";
+import type { Account } from "~/modules/finance/models/account";
+import { Currency } from "~/modules/finance/models/money";
 import { User } from "~/server/modules/user";
+import { isSuccess, Result, Success } from "~/shared/result";
+import { createTransactionMutation } from "./api";
+import { TransactionType } from "~/modules/finance/models/transaction";
+import { TransactionCreateInput } from "~/modules/finance/controllers/transactions/create";
 
 export type Step = "currency" | "amount";
 
-export const pageStarted = createEvent<{ account: Account; user: User }>();
+export const pageStarted =
+  createEvent<Result<{ account: Account; user: User }, unknown>>();
 
 export const amountChanged = createEvent<string>();
 export const currencySelected = createEvent<Currency>();
@@ -59,6 +65,27 @@ sample({
 
 sample({
   clock: pageStarted,
-  fn: ({ account }) => account,
+  filter: isSuccess,
+  fn: (res: Success<{ account: Account; user: User }>) => res.success.account,
   target: $account,
+});
+
+sample({
+  clock: amountSubmitted,
+  source: {
+    amount: $amount,
+    currency: $currency,
+    accountId: $account.map((account) => account?.id!),
+  },
+  fn({ amount, accountId, currency }) {
+    return {
+      type: TransactionType.income,
+      amount,
+      accuracy: 0,
+      accountId,
+      createdAt: new Date().toISOString(),
+      currency: currency as Currency,
+    } as TransactionCreateInput;
+  },
+  target: createTransactionMutation.start,
 });
