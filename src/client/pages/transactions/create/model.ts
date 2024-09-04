@@ -41,6 +41,9 @@ sample({
     step: res.success.step,
     currency: res.success.currency,
     backUrl: res.success.backUrl,
+    amount: res.success.amount,
   }),
   target: init,
 });
+
+init.watch(console.log);

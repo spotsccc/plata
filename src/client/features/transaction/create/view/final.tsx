@@ -1,14 +1,9 @@
-import {
-  Stack,
-  NumberFormatter,
-  Title,
-  Group,
-  Text,
-  Button,
-} from "@mantine/core";
+import { Stack, NumberFormatter, Group, Text, Button } from "@mantine/core";
 import { useUnit } from "effector-react";
-import { $account, $amount, $currency } from "../model";
 import { Header } from "./header";
+import { $amount } from "../model/amount";
+import { $currency } from "../model/currency";
+import { $account } from "../model/core";
 
 export function FinalScreen() {
   return <IncomeFinalPage />;
