@@ -2,7 +2,7 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Client } from "pg";
-import * as schema from "./schemas";
+import { schema } from ".";
 
 const connection = new Client({
   host: process.env.DB_HOST,

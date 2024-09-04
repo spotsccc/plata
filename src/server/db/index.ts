@@ -1,7 +1,27 @@
 import { Pool } from "pg";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { config } from "../config";
-import * as schema from "./schemas";
+import { users } from "../modules/users/schemas/user";
+import {
+  accountsRelations,
+  transactionsRelations,
+} from "../modules/finance/schemas/relations";
+import { accounts } from "../modules/finance/schemas/accounts";
+import { transactions } from "../modules/finance/schemas/transactions";
+import {
+  accessTokens,
+  accessTokensRelation,
+} from "../modules/auth/schemas/access-tokens";
+
+export const schema = {
+  users,
+  accountsRelations,
+  accounts,
+  transactions,
+  transactionsRelations,
+  accessTokens,
+  accessTokensRelation,
+};
 
 export let db: NodePgDatabase<typeof schema>;
 

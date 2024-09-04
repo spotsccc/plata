@@ -1,4 +1,16 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["effector/babel-plugin"]
+  "plugins": [
+    "effector/babel-plugin",
+    "inline-react-svg",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "~": "./src"
+        }
+      }
+    ]
+  ]
 }

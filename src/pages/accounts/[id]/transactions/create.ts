@@ -1,9 +1,13 @@
 import { allSettled, fork, serialize } from "effector";
 import { GetServerSidePropsContext } from "next";
-import { TransactionCreatePage } from "~/modules/finance/client/pages/transactions/create";
-import { pageStarted } from "~/modules/finance/client/pages/transactions/create/model";
+import { Step } from "~/client/features/transaction/create/model";
+import { TransactionCreatePage } from "~/client/pages/transactions/create";
+import { pageStarted } from "~/client/pages/transactions/create/model";
 import { createContextFromNext } from "~/server/context";
+import { Currency } from "~/server/modules/finance/models/money";
+import { TransactionType } from "~/server/modules/finance/models/transaction";
 import { createCaller } from "~/server/trpc-router";
+import { createSuccess, isError } from "~/shared/result";
 
 export default TransactionCreatePage;
 
@@ -15,9 +19,20 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
     const res = await caller.finance.transactions.createPage({ accountId });
 
+    if (isError(res)) {
+      throw new Error("");
+    }
     const scope = fork();
 
-    await allSettled(pageStarted, { params: res, scope });
+    const type = ctx.query["type"] as TransactionType;
+    const step = ctx.query["step"] as Step;
+    const currency = ctx.query["currency"] as Currency;
+    const backUrl = ctx.query["backUrl"] as string;
+
+    await allSettled(pageStarted, {
+      params: createSuccess({ ...res.success, type, step, currency, backUrl }),
+      scope,
+    });
 
     return {
       props: {

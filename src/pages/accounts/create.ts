@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import { AccountCreatePage } from "~/modules/finance/client/pages/accounts/create";
+import { AccountCreatePage } from "~/client/pages/accounts/create";
 import { createContextFromNext } from "~/server/context";
 import { createCaller } from "~/server/trpc-router";
 

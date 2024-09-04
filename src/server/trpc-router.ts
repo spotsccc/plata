@@ -1,10 +1,10 @@
+import { auth } from "./modules/auth/trpc";
+import { finance } from "./modules/finance/trpc";
 import { router, t } from "./trpc";
-import { authRouter } from "~/modules/auth/server/controllers";
-import { finance } from "~/modules/finance/trpc";
 
 export const appRouter = router({
   finance,
-  auth: authRouter,
+  auth,
 });
 
 export type AppRouter = typeof appRouter;

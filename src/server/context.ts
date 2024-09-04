@@ -1,6 +1,6 @@
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { getUserFromRequest } from "./modules/auth/get-user-from-request";
 import { GetServerSidePropsContext } from "next";
+import { getUserFromRequest } from "./modules/auth/get-user-from-request";
 
 export async function createContext({ req, res }: CreateNextContextOptions) {
   const user = await getUserFromRequest(req);

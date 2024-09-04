@@ -1,5 +1,5 @@
-import { User } from "../user";
-import { db } from "~/server/db";
+import { User } from "../users/models/user";
+import { getUserByAccessToken } from "../users/repositories/user";
 
 export async function getUserFromRequest(req: {
   cookies: Partial<{
@@ -7,7 +7,6 @@ export async function getUserFromRequest(req: {
   }>;
 }): Promise<User | null> {
   const accessToken = req.cookies["accessToken"];
-  console.log(accessToken);
 
   if (!accessToken) {
     return null;
@@ -16,21 +15,4 @@ export async function getUserFromRequest(req: {
   const user = await getUserByAccessToken(accessToken as string);
 
   return user;
-}
-
-export async function getUserByAccessToken(
-  accessToken: string,
-): Promise<User | null> {
-  const tokenWithUser = await db.query.accessTokens.findFirst({
-    where: ({ token }, { eq }) => eq(token, accessToken),
-    with: {
-      user: true,
-    },
-  });
-
-  if (!tokenWithUser) {
-    return null;
-  }
-
-  return tokenWithUser.user;
 }

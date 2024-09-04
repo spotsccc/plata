@@ -1,7 +1,7 @@
 import { allSettled, fork, serialize } from "effector";
 import { GetServerSidePropsContext } from "next";
-import { AccountsPage } from "~/modules/finance/client/pages/accounts/list";
-import { pageStarted } from "~/modules/finance/client/pages/accounts/list/model";
+import { AccountsPage } from "~/client/pages/accounts/list";
+import { pageStarted } from "~/client/pages/accounts/list/model";
 import { createContextFromNext } from "~/server/context";
 import { createCaller } from "~/server/trpc-router";
 
