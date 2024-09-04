@@ -10,7 +10,7 @@ import {
   passwordChanged,
   submitted,
 } from "./model";
-import { Link } from "~/shared/ui/link";
+import { Link } from "~/client/shared/ui/link";
 
 export function LoginPage() {
   const {

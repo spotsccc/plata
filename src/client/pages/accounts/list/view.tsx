@@ -8,7 +8,7 @@ import {
   Title,
   UnstyledButton,
 } from "@mantine/core";
-import { Link } from "~/shared/ui/link";
+import { Link } from "~/client/shared/ui/link";
 import Image from "next/image";
 import { useStoreMap, useUnit } from "effector-react";
 import { $accounts, createIncomeTransactionClicked } from "./model";

@@ -8,7 +8,7 @@ import {
   ValidationErrorResponse,
 } from "~/shared/errors";
 import { spread } from "patronum";
-import { notify } from "~/shared/notifications";
+import { notify } from "~/client/shared/notifications";
 
 export const emailChanged = createEvent<string>();
 export const passwordChanged = createEvent<string>();

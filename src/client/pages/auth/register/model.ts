@@ -7,7 +7,7 @@ import {
   ValidationErrorResponse,
 } from "~/shared/errors";
 import { spread } from "patronum";
-import { notify } from "~/shared/notifications";
+import { notify } from "~/client/shared/notifications";
 import { registerMutation } from "./api";
 import { Error } from "~/shared/result";
 

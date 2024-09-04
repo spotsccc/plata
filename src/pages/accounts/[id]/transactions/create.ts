@@ -1,6 +1,6 @@
 import { allSettled, fork, serialize } from "effector";
 import { GetServerSidePropsContext } from "next";
-import { Step } from "~/client/features/transaction/create/model";
+import { Step } from "~/client/features/transaction/create/model/core";
 import { TransactionCreatePage } from "~/client/pages/transactions/create";
 import { pageStarted } from "~/client/pages/transactions/create/model";
 import { createContextFromNext } from "~/server/context";
@@ -27,10 +27,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const type = ctx.query["type"] as TransactionType;
     const step = ctx.query["step"] as Step;
     const currency = ctx.query["currency"] as Currency;
+    const amount = ctx.query["amount"] as string;
     const backUrl = ctx.query["backUrl"] as string;
 
     await allSettled(pageStarted, {
-      params: createSuccess({ ...res.success, type, step, currency, backUrl }),
+      params: createSuccess({
+        ...res.success,
+        type,
+        step,
+        currency,
+        backUrl,
+        amount,
+      }),
       scope,
     });
 

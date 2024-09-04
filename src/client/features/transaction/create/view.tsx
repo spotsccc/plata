@@ -1,21 +1,17 @@
 import { useUnit } from "effector-react";
-import {
-  $amount,
-  $currency,
-  $filteredCurrencies,
-  $searchCurrencyString,
-  $step,
-  amountChanged,
-  amountSubmitted,
-  currencySelected,
-  searchCurrencyStringChanged,
-  Step,
-} from "./model";
 import { FC } from "react";
 import { CurrencyScreenView } from "./view/currency-screen";
 import { AmountScreenView } from "./view/amount-screen";
 import { FinalScreen } from "./view/final";
-import { TypeScreen } from "./view/type-screen";
+import { amountChanged, $amount, amountSubmitted } from "./model/amount";
+import { Step, $step } from "./model/core";
+import {
+  currencySelected,
+  $searchCurrencyString,
+  searchCurrencyStringChanged,
+  $filteredCurrencies,
+  $currency,
+} from "./model/currency";
 
 function CurrencyScreen() {
   const { currencyHandler, currencies, searchStringHandler, searchString } =
@@ -28,6 +24,7 @@ function CurrencyScreen() {
 
   return (
     <CurrencyScreenView
+      disableBackButton
       currencyHandler={currencyHandler}
       currencies={currencies}
       searchString={searchString}
@@ -56,7 +53,6 @@ function AmountScreen() {
 
 const SCREENS: Record<Step, FC> = {
   currency: CurrencyScreen,
-  type: TypeScreen,
   receiveAmount: () => null,
   receiver: () => null,
   receiveCurrency: () => null,
@@ -68,6 +64,5 @@ const SCREENS: Record<Step, FC> = {
 export function TransactionCreate() {
   const { step } = useUnit({ step: $step });
   const Screen = SCREENS[step];
-  console.log(step);
   return <Screen />;
 }

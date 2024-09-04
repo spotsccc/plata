@@ -7,7 +7,7 @@ import {
   CSSVariablesResolver,
   MantineProvider,
 } from "@mantine/core";
-import { Notifications } from "~/shared/notifications/view";
+import { Notifications } from "~/client/shared/notifications/view";
 import "./styles.css";
 
 const resolver: CSSVariablesResolver = (theme) => ({

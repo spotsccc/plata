@@ -1,6 +1,6 @@
 import { Button, Select, Stack, TextInput, Title } from "@mantine/core";
 import { useUnit } from "effector-react";
-import { Link } from "~/shared/ui/link";
+import { Link } from "~/client/shared/ui/link";
 import {
   $currency,
   $name,

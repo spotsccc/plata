@@ -15,7 +15,6 @@ export const registerInput = z
   })
   .refine(
     ({ password, repeatPassword }) => {
-      console.log(repeatPassword === password);
       return password === repeatPassword;
     },
     {
@@ -54,11 +53,6 @@ export async function registerController({ ctx, input }: Request) {
         });
       }
     }
-    console.log(e);
     throw e;
   }
 }
-
-export const register = publicProcedure
-  .input(registerInput)
-  .mutation(async ({ input, ctx }) => {});

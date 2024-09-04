@@ -2,7 +2,7 @@ import { Group, UnstyledButton, Title } from "@mantine/core";
 import CrossIcon from "~/client/shared/ui/icons/cross.svg";
 import ArrowLeft from "~/client/shared/ui/icons/arrow-left.svg";
 import { useUnit } from "effector-react";
-import { backButtonPressed, crossButtonPressed } from "../model";
+import { backButtonPressed, crossButtonPressed } from "../model/navigation";
 
 type Props = {
   title: string;

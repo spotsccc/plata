@@ -1,5 +1,6 @@
 import { createEvent, sample } from "effector";
-import { init, Step } from "~/client/features/transaction/create/model";
+import { init } from "~/client/features/transaction/create";
+import { Step } from "~/client/features/transaction/create/model/core";
 import { Account } from "~/server/modules/finance/models/account";
 import { Currency } from "~/server/modules/finance/models/money";
 import { TransactionType } from "~/server/modules/finance/models/transaction";
@@ -15,6 +16,7 @@ export const pageStarted = createEvent<
       step?: Step;
       currency?: Currency;
       backUrl?: string;
+      amount?: string;
     },
     unknown
   >
@@ -31,6 +33,7 @@ sample({
       step?: Step;
       currency?: Currency;
       backUrl?: string;
+      amount?: string;
     }>,
   ) => ({
     account: res.success.account,

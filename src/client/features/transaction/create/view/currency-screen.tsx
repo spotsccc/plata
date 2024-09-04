@@ -1,6 +1,5 @@
 import {
   Stack,
-  Title,
   TextInput,
   List,
   ListItem,
@@ -8,9 +7,9 @@ import {
   Group,
   Text,
 } from "@mantine/core";
-import { CurrencyView } from "../model";
 import { Currency } from "~/server/modules/finance/models/money";
 import { Header } from "./header";
+import { CurrencyView } from "../model/currency";
 
 type Props = {
   currencies: Array<CurrencyView>;
@@ -18,6 +17,7 @@ type Props = {
   searchHandler: (v: string) => void;
   currencyHandler: (v: Currency) => void;
   title?: string;
+  disableBackButton?: boolean;
 };
 
 export function CurrencyScreenView({
@@ -26,11 +26,15 @@ export function CurrencyScreenView({
   searchHandler,
   searchString,
   title,
+  disableBackButton,
 }: Props) {
   return (
     <Stack p="lg" h="100dvh">
       <Stack>
-        <Header title={title ?? "Select transaction currency"} />
+        <Header
+          disableBackArrow={disableBackButton}
+          title={title ?? "Select transaction currency"}
+        />
         <TextInput
           value={searchString}
           onChange={(e) => searchHandler(e.target.value.toUpperCase())}

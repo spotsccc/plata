@@ -1,2 +1,2 @@
-export { init } from "./model";
+export { init } from "./model/core";
 export { TransactionCreate } from "./view";
