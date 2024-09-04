@@ -21,6 +21,8 @@ persist({
 
 export const $searchCurrencyString = restore(searchCurrencyStringChanged, "");
 
+export const reinit = createEvent();
+
 export const $filteredCurrencies = combine(
   {
     account: $account,
@@ -61,4 +63,9 @@ sample({
 sample({
   clock: currencySelected,
   target: goToNextStep,
+});
+
+sample({
+  clock: reinit,
+  target: [$currency.reinit, $searchCurrencyString.reinit],
 });

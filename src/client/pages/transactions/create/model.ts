@@ -45,5 +45,3 @@ sample({
   }),
   target: init,
 });
-
-init.watch(console.log);

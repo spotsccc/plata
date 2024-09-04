@@ -7,6 +7,8 @@ export const amountSubmitted = createEvent();
 
 export const $amount = restore(amountChanged, "");
 
+export const reinit = $amount.reinit;
+
 persist({
   store: $amount,
   key: "amount",

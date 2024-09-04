@@ -4,16 +4,19 @@ import { Header } from "./header";
 import { $amount } from "../model/amount";
 import { $currency } from "../model/currency";
 import { $account } from "../model/core";
+import { $loading, creationSubmitted } from "../model/final";
 
 export function FinalScreen() {
   return <IncomeFinalPage />;
 }
 
 function IncomeFinalPage() {
-  const { amount, currency, account } = useUnit({
+  const { amount, currency, account, loading, submitHandler } = useUnit({
     amount: $amount,
     currency: $currency,
     account: $account,
+    loading: $loading,
+    submitHandler: creationSubmitted,
   });
 
   return (
@@ -33,7 +36,9 @@ function IncomeFinalPage() {
         </Group>
       </Stack>
       <Stack>
-        <Button>Create transaction</Button>
+        <Button loading={loading} onClick={submitHandler}>
+          Create transaction
+        </Button>
       </Stack>
     </Stack>
   );

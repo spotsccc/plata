@@ -20,7 +20,7 @@ export const submitted = createEvent();
 const knownErrorHappend = createEvent<{ message: string; field: string }>();
 const usernameAlreadyExistErrorHappend = createEvent();
 const emailAlreadyExistErrorHappend = createEvent();
-const registerNavigate = navigate.prepend(() => ({ path: "/" }));
+const registerNavigate = navigate.prepend(() => ({ path: "/accounts" }));
 
 export const $email = restore(emailChanged, "");
 export const $password = restore(passwordChanged, "");

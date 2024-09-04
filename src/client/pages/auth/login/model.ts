@@ -15,7 +15,7 @@ export const passwordChanged = createEvent<string>();
 export const submitted = createEvent();
 
 const loginNavigate = navigate.prepend(() => ({
-  path: "/",
+  path: "/accounts",
 }));
 const wrongEmailOrPasswordErrorHappend = createEvent();
 

@@ -1,6 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 import { persist } from "effector-storage/query";
-import { spread } from "patronum";
+import { reset, spread } from "patronum";
 import { Account } from "~/server/modules/finance/models/account";
 import { Currency } from "~/server/modules/finance/models/money";
 import { TransactionType } from "~/server/modules/finance/models/transaction";
@@ -45,6 +45,8 @@ export const $step = createStore<Step>("currency");
 export const $type = createStore<TransactionType>(TransactionType.income);
 export const $account = createStore<Account | null>(null);
 
+export const reinit = createEvent();
+
 persist({
   store: $step,
   key: "step",
@@ -66,6 +68,13 @@ sample({
       backUrl: $backUrl,
     },
   }),
+});
+
+$backUrl.watch(console.log);
+
+sample({
+  clock: reinit,
+  target: [$step.reinit, $type.reinit, $account.reinit, $backUrl.reinit],
 });
 
 sample({

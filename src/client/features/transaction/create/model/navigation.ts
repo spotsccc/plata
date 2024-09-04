@@ -5,13 +5,15 @@ import { navigate } from "~/client/shared/router";
 export const backButtonPressed = createEvent();
 export const crossButtonPressed = createEvent();
 
+export const navigateToBackUrl = createEvent();
+
 sample({
   clock: backButtonPressed,
   target: goToPreviousStep,
 });
 
 sample({
-  clock: crossButtonPressed,
+  clock: navigateToBackUrl,
   source: { backUrl: $backUrl, account: $account },
   fn: ({ backUrl, account }) => {
     if (backUrl) {
@@ -21,4 +23,9 @@ sample({
     return { path: `/accounts/${account?.id}` };
   },
   target: navigate,
+});
+
+sample({
+  clock: crossButtonPressed,
+  target: navigateToBackUrl,
 });
